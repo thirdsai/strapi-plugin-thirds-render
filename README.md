@@ -23,7 +23,7 @@ From a local copy or the GitHub repository:
 
 ```sh
 npm install /path/to/strapi-plugin-thirds-render
-# or: npm install github:<owner>/strapi-plugin-thirds-render
+# or: npm install github:thirdsai/strapi-plugin-thirds-render
 ```
 
 The package has `strapi.kind: plugin`, so Strapi picks it up from your dependencies. Restart Strapi after installing.
