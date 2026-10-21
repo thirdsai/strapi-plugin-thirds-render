@@ -1,0 +1,30 @@
+{
+  "name": "strapi-plugin-thirds-render",
+  "version": "0.1.0",
+  "description": "Render a Strapi 5 content entry to a PDF or PNG with the thirds.ai hosted render API.",
+  "keywords": ["strapi", "strapi-plugin", "strapi-5", "pdf", "png", "html-to-pdf", "og-image", "thirds.ai"],
+  "license": "MIT",
+  "author": "thirds.ai",
+  "homepage": "https://thirds.ai/?utm_source=strapi&utm_medium=community&utm_campaign=own-content&utm_content=strapi-plugin",
+  "main": "./strapi-server.js",
+  "exports": {
+    "./strapi-server": {
+      "require": "./strapi-server.js",
+      "default": "./strapi-server.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": ["server", "strapi-server.js", "README.md", "LICENSE"],
+  "strapi": {
+    "kind": "plugin",
+    "name": "thirds-render",
+    "displayName": "thirds.ai render",
+    "description": "Render a content entry to a PDF or PNG with the thirds.ai hosted render API."
+  },
+  "peerDependencies": {
+    "@strapi/strapi": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
