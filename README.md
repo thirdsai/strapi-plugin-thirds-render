@@ -53,12 +53,23 @@ Put `THIRDS_API_KEY=...` in your `.env` or your host's environment settings. If 
 
 ## Permissions
 
-The route is a Content API route, so it needs an authenticated request:
+The route is a Content API route, so every request needs a Strapi API token or a logged in user whose role allows the action `plugin::thirds-render.render.render` (plugin `thirds-render`, controller `render`, action `render`). Without it Strapi answers 403 Forbidden.
 
-* an API token (Settings, API Tokens) (full access, or custom with the `render` action under **Thirds-render**, which is `plugin::thirds-render.render.render`), sent as `Authorization: Bearer <token>`, or
-* a Users & Permissions role with the **render** action of the Thirds-render plugin turned on.
+**API token** (for servers, scripts and other backends):
 
-Every new render uses credits on the thirds.ai account behind the key, so keep the route away from the Public role unless you mean it.
+1. Settings, then API Tokens, then Create new API Token.
+2. Token type **Custom**. In Permissions, open **thirds-render**, then **render**, and tick **render**. Add any other actions the token needs.
+3. Save, copy the token, and send it as `Authorization: Bearer <token>`.
+
+A **Full access** token also works. A **Read-only** token does not, because it only covers find actions.
+
+**Users & Permissions role** (for logged in end users):
+
+1. Settings, then Users & Permissions plugin, then Roles, then the role, for example **Authenticated**.
+2. In Permissions, open **thirds-render** and tick **render**, then Save.
+3. Users log in with `POST /api/auth/local` and send the returned JWT as `Authorization: Bearer <jwt>`.
+
+Every new render uses credits on the thirds.ai account behind the key, so do not tick render for the **Public** role unless you mean it.
 
 ## Use
 
@@ -98,6 +109,8 @@ JSON response:
 ```
 
 The API returns the download link as a relative path; the plugin puts `https://thirds.ai` in front of it. The link is signed and expires after about 15 minutes, so store the file (for example in the Media Library) rather than the link if you need it later.
+
+With i18n, pass `locale` to render a localized version, for example `?locale=fr`. Each locale is a separate version with its own Idempotency-Key, and a locale that has no version of the entry returns 404. Turning on localization for a content type that already has entries changes their key once (the entry gains a locale), so the next render of each entry makes a new file.
 
 Errors come back as `{ data: null, error: { status, name: "ThirdsRenderError", message } }`: 400 for a bad format or status, 403 for a content type that is not enabled or a draft when drafts are off, 404 for an unknown entry, and 502 when the render API fails.
 
