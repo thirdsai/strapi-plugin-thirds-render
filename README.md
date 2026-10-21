@@ -5,6 +5,8 @@ Drafted with AI help.
 
 A Strapi 5 plugin that renders a content entry to a PDF or a PNG with the thirds.ai hosted render API. One authenticated request to your Strapi API returns a signed download link, or the file itself.
 
+Requires a thirds.ai account and API key.
+
 ```
 POST /api/thirds-render/:uid/:documentId?format=pdf|png
 ```
